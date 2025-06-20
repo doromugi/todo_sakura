@@ -1,5 +1,6 @@
 // サクラエディタ TODO記号切り替えマクロ
 // ショートカットキーで □ → ◆ → ■ → □ の循環切り替えを行う
+// Unicode文字（\u25A1 \u25C6 \u25A0）を使用して文字化けを防止
 
 function main() {
     // 現在の行を取得
@@ -16,14 +17,14 @@ function main() {
     var currentSymbol = "";
     var remainingText = contentAfterIndent;
     
-    if (contentAfterIndent.indexOf("□") === 0) {
-        currentSymbol = "□";
+    if (contentAfterIndent.indexOf("\u25A1") === 0) {  // □ 白四角
+        currentSymbol = "\u25A1";
         remainingText = contentAfterIndent.substring(1);
-    } else if (contentAfterIndent.indexOf("◆") === 0) {
-        currentSymbol = "◆";
+    } else if (contentAfterIndent.indexOf("\u25C6") === 0) {  // ◆ 黒ダイヤ
+        currentSymbol = "\u25C6";
         remainingText = contentAfterIndent.substring(1);
-    } else if (contentAfterIndent.indexOf("■") === 0) {
-        currentSymbol = "■";
+    } else if (contentAfterIndent.indexOf("\u25A0") === 0) {  // ■ 黒四角
+        currentSymbol = "\u25A0";
         remainingText = contentAfterIndent.substring(1);
     }
     
@@ -42,15 +43,15 @@ function main() {
 // 記号状態判定ロジック：次の記号を決定する
 function getNextSymbol(currentSymbol) {
     switch (currentSymbol) {
-        case "□":
-            return "◆";
-        case "◆":
-            return "■";
-        case "■":
-            return "□";
+        case "\u25A1":  // □ 白四角
+            return "\u25C6";  // ◆ 黒ダイヤ
+        case "\u25C6":  // ◆ 黒ダイヤ
+            return "\u25A0";  // ■ 黒四角
+        case "\u25A0":  // ■ 黒四角
+            return "\u25A1";  // □ 白四角
         default:
             // 記号がない場合は□を追加
-            return "□";
+            return "\u25A1";  // □ 白四角
     }
 }
 
