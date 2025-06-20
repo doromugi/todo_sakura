@@ -116,16 +116,12 @@ function main() {
     // インデント処理モジュールを使用して新しい行を構築
     var newLineText = indentProcessor.replaceText(currentLineText, newText);
     
-    // 現在の行を新しい内容で置換（絶対位置でカーソル位置を確実に保持）
-    var currentLine = Editor.GetLineCount(1);     // 現在行番号を記憶
-    var currentCol = Editor.GetSelectColumnFrom(); // 現在列位置を記憶
-    
+    // 現在の行を新しい内容で置換（シンプルで安全な実装）
     Editor.GoLineTop(0);          // 行頭に移動
     Editor.SelectLine();          // 行全体を選択
     Editor.Delete();              // 選択行を削除
     Editor.InsText(newLineText);  // 新しい内容を挿入
-    
-    Editor.Jump(currentLine, 1);  // 絶対位置で行頭に確実に復元
+    Editor.GoLineTop(0);          // 行頭に戻る
 }
 
 // マクロのエントリーポイント

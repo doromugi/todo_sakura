@@ -60,16 +60,22 @@ if (text.indexOf("□") !== -1) {
 // ❌ 存在しない関数
 Editor.SetLineStr(0, newLineText);
 
-// ✅ 正しい実装方法（絶対位置でカーソル位置保持）
-var currentLine = Editor.GetLineCount(1);     // 現在行番号を記憶
-var currentCol = Editor.GetSelectColumnFrom(); // 現在列位置を記憶
-
+// ✅ 正しい実装方法（シンプルで安全）
 Editor.GoLineTop(0);          // 行頭に移動
 Editor.SelectLine();          // 行全体を選択
 Editor.Delete();              // 選択行を削除
 Editor.InsText(newLineText);  // 新しい内容を挿入
+Editor.GoLineTop(0);          // 行頭に戻る
+```
 
-Editor.Jump(currentLine, 1);  // 絶対位置で行頭に確実に復元
+#### カーソル位置制御の注意点
+```javascript
+// ❌ API仕様不明で実行エラー
+var currentLine = Editor.GetLineCount(1);  // Line 38エラー
+Editor.Jump(currentLine, 1);
+
+// ✅ 確実に動作する基本的な方法
+Editor.GoLineTop(0);  // 行頭に移動（相対位置だが安全）
 ```
 
 #### `Editor.GetLineStr()` 使用方法
