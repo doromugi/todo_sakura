@@ -37,13 +37,15 @@ if (text.indexOf("□") !== -1) {
 
 ### 2. サクラエディタAPI問題
 
-#### `Editor.SetLineStr()` 引数順序
+#### `Editor.SetLineStr()` 関数問題
 ```javascript
-// ❌ 間違った引数順序
-Editor.SetLineStr(newLineText, 0);
-
-// ✅ 正しい引数順序
+// ❌ 存在しない関数
 Editor.SetLineStr(0, newLineText);
+
+// ✅ 正しい実装方法
+Editor.GoLineTop(0);          // 行頭に移動
+Editor.SelectLine();          // 行全体を選択
+Editor.InsText(newLineText);  // 選択範囲を置換
 ```
 
 #### `Editor.GetLineStr()` 使用方法
@@ -64,7 +66,8 @@ var currentLineText = Editor.GetLineStr(0);
 
 ### サクラエディタAPI
 - [x] `Editor.GetLineStr(行番号)` - 正しく使用
-- [x] `Editor.SetLineStr(行番号, テキスト)` - 引数順序修正
+- [x] `Editor.SetLineStr()` - 存在しない関数を正しいAPI呼び出しに修正
+- [x] `Editor.GoLineTop()`, `Editor.SelectLine()`, `Editor.InsText()` - 組み合わせで行置換
 
 ### ES5準拠の書き方
 
@@ -132,5 +135,6 @@ return {
 
 - 2025-06-20: 初版作成
   - `startsWith()` → `indexOf()` 修正
-  - `Editor.SetLineStr()` 引数順序修正
+  - `Editor.SetLineStr()` 存在しない関数問題を修正
+  - 正しいサクラエディタAPI使用方法に変更
   - 互換性ガイドライン策定

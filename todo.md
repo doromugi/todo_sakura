@@ -65,5 +65,16 @@
 ## 修正履歴
 ### 2025-06-20 互換性問題修正
 - ❌ `startsWith()` → ✅ `indexOf() === 0`
-- ❌ `Editor.SetLineStr(text, line)` → ✅ `Editor.SetLineStr(line, text)`
+- ❌ `Editor.SetLineStr()` (存在しない関数) → ✅ 正しいAPI組み合わせに修正
 - ES5準拠コードに統一
+
+### API修正詳細
+```javascript
+// 修正前（存在しない関数）
+Editor.SetLineStr(0, newLineText);
+
+// 修正後（正しいAPI）
+Editor.GoLineTop(0);          // 行頭に移動
+Editor.SelectLine();          // 行全体を選択  
+Editor.InsText(newLineText);  // 選択範囲を置換
+```
