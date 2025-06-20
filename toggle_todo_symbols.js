@@ -16,13 +16,13 @@ function main() {
     var currentSymbol = "";
     var remainingText = contentAfterIndent;
     
-    if (contentAfterIndent.startsWith("□")) {
+    if (contentAfterIndent.indexOf("□") === 0) {
         currentSymbol = "□";
         remainingText = contentAfterIndent.substring(1);
-    } else if (contentAfterIndent.startsWith("◆")) {
+    } else if (contentAfterIndent.indexOf("◆") === 0) {
         currentSymbol = "◆";
         remainingText = contentAfterIndent.substring(1);
-    } else if (contentAfterIndent.startsWith("■")) {
+    } else if (contentAfterIndent.indexOf("■") === 0) {
         currentSymbol = "■";
         remainingText = contentAfterIndent.substring(1);
     }
