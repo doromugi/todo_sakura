@@ -81,13 +81,25 @@ var symbols = ["\u25A1", "\u25C6", "\u25A0"];  // □ ◆ ■
 if (text.indexOf("\u25A1") === 0) {
 ```
 
-### API修正詳細
+### API修正詳細（v2: 絶対位置指定）
 ```javascript
 // 修正前（存在しない関数）
 Editor.SetLineStr(0, newLineText);
 
-// 修正後（正しいAPI）
+// 修正後（絶対位置でカーソル位置保持）
+var currentLine = Editor.GetLineCount(1);     // 現在行番号を記憶
+var currentCol = Editor.GetSelectColumnFrom(); // 現在列位置を記憶
+
 Editor.GoLineTop(0);          // 行頭に移動
-Editor.SelectLine();          // 行全体を選択  
-Editor.InsText(newLineText);  // 選択範囲を置換
+Editor.SelectLine();          // 行全体を選択
+Editor.Delete();              // 選択行を削除
+Editor.InsText(newLineText);  // 新しい内容を挿入
+
+Editor.Jump(currentLine, 1);  // 絶対位置で行頭に確実に復元
 ```
+
+### カーソル位置修正詳細（v2）
+- `Editor.GetLineCount(1)` で現在行番号を数値で記憶
+- `Editor.GetSelectColumnFrom()` で現在列位置を数値で記憶  
+- `Editor.Jump(行番号, 列番号)` で絶対位置指定による確実な復元
+- 相対移動ではなく絶対座標による安定したカーソル制御
