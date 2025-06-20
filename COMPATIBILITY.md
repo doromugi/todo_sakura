@@ -74,8 +74,12 @@ Editor.GoLineTop(0);          // 行頭に戻る
 var currentLine = Editor.GetLineCount(1);  // Line 38エラー
 Editor.Jump(currentLine, 1);
 
-// ✅ 確実に動作する基本的な方法
+// ❌ 基本的だが同じ行にとどまらない
 Editor.GoLineTop(0);  // 行頭に移動（相対位置だが安全）
+
+// ✅ 確実に動作する正式API（推奨）
+var currentLine = Editor.GetSelectLineFrom();  // 現在行番号取得
+Editor.MoveCursor(currentLine, 1, 0);  // 同じ行の行頭に確実に復帰
 ```
 
 #### `Editor.GetLineStr()` 使用方法
@@ -103,6 +107,8 @@ var currentLineText = Editor.GetLineStr(0);
 - [x] `Editor.GetLineStr(行番号)` - 正しく使用
 - [x] `Editor.SetLineStr()` - 存在しない関数を正しいAPI呼び出しに修正
 - [x] `Editor.GoLineTop()`, `Editor.SelectLine()`, `Editor.InsText()` - 組み合わせで行置換
+- [x] `Editor.MoveCursor(行番号, 列番号, オプション)` - 正式API仕様に基づく位置制御
+- [x] `Editor.GetSelectLineFrom()` - 現在行番号取得（1開始）
 
 ### ES5準拠の書き方
 
@@ -174,3 +180,9 @@ return {
   - `Editor.SetLineStr()` 存在しない関数問題を修正
   - 正しいサクラエディタAPI使用方法に変更
   - 互換性ガイドライン策定
+
+- 2025-06-20: カーソル位置制御修正
+  - API仕様書調査によりMoveCursor関数の正しい使用方法を確認
+  - `Editor.GetSelectLineFrom()` で現在行番号取得
+  - `Editor.MoveCursor(行番号, 1, 0)` で確実な位置復帰を実現
+  - 連続記号切り替えが可能な正確なカーソル制御を実装
