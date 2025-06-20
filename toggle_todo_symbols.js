@@ -34,7 +34,7 @@ function main() {
     var newLineText = indentPart + nextSymbol + remainingText;
     
     // 現在の行を新しい内容で置換
-    Editor.SetLineStr(newLineText, 0);
+    Editor.SetLineStr(0, newLineText);
 }
 
 // 記号状態判定ロジック：次の記号を決定する
