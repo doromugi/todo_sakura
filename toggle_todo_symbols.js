@@ -34,10 +34,12 @@ function main() {
     // 新しい行の内容を構築
     var newLineText = indentPart + nextSymbol + remainingText;
     
-    // 現在の行を新しい内容で置換
+    // 現在の行を新しい内容で置換（カーソル位置を保持）
     Editor.GoLineTop(0);          // 行頭に移動
     Editor.SelectLine();          // 行全体を選択
-    Editor.InsText(newLineText);  // 選択範囲を置換
+    Editor.Delete();              // 選択行を削除
+    Editor.InsText(newLineText);  // 新しい内容を挿入
+    Editor.GoLineTop(0);          // 行頭に戻る（カーソル位置固定）
 }
 
 // 記号状態判定ロジック：次の記号を決定する
