@@ -116,7 +116,9 @@ function main() {
     var newLineText = indentProcessor.replaceText(currentLineText, newText);
     
     // 現在の行を新しい内容で置換
-    Editor.SetLineStr(0, newLineText);
+    Editor.GoLineTop(0);          // 行頭に移動
+    Editor.SelectLine();          // 行全体を選択
+    Editor.InsText(newLineText);  // 選択範囲を置換
 }
 
 // マクロのエントリーポイント
