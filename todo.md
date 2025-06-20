@@ -60,3 +60,10 @@
 - `todo_toggle_integrated.js` - 統合版マクロ
 - `README.md` - プロジェクト説明とインストールガイド
 - `SETUP_GUIDE.md` - 詳細設定手順とトラブルシューティング
+- `COMPATIBILITY.md` - サクラエディタ互換性ガイド
+
+## 修正履歴
+### 2025-06-20 互換性問題修正
+- ❌ `startsWith()` → ✅ `indexOf() === 0`
+- ❌ `Editor.SetLineStr(text, line)` → ✅ `Editor.SetLineStr(line, text)`
+- ES5準拠コードに統一
