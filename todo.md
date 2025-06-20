@@ -55,4 +55,5 @@
 - [ ] 設定手順が明確になっている
 
 ## 実装済みファイル
+- `indent-processor.js` - インデント処理モジュール
 - `toggle_todo_symbols.js` - TODO記号切り替えマクロ（完全実装版）

@@ -1,61 +1,40 @@
 // サクラエディタ TODO記号切り替えマクロ
 // ショートカットキーで □ → ◆ → ■ → □ の循環切り替えを行う
-// 
-// 使用方法:
-// 1. indent-processor.js と toggle_todo_symbols.js を同じフォルダに配置
-// 2. サクラエディタで indent-processor.js を先に実行してモジュールを読み込み
-// 3. toggle_todo_symbols.js を実行してTODO記号を切り替え
-
-// IndentProcessorモジュールの存在確認と初期化
-if (typeof IndentProcessor === 'undefined') {
-    throw new Error('IndentProcessor module not found. Please load indent-processor.js first.');
-}
-var indentProcessor = new IndentProcessor();
 
 function main() {
     // 現在の行を取得
     var currentLineText = Editor.GetLineStr(0);
     
-    // インデント処理モジュールを使用してインデントとテキストを分離
-    var parsed = indentProcessor.parseIndent(currentLineText);
-    var indentPart = parsed.indent;
-    var contentAfterIndent = parsed.text;
+    // 行頭のインデント部分を取得（tab、半角スペース、全角スペース）
+    var indentMatch = currentLineText.match(/^([\t 　]*)/);
+    var indentPart = indentMatch ? indentMatch[1] : "";
+    
+    // インデント後の内容を取得
+    var contentAfterIndent = currentLineText.substring(indentPart.length);
     
     // 現在の記号状態を判定
-    var symbolInfo = detectCurrentSymbol(contentAfterIndent);
+    var currentSymbol = "";
+    var remainingText = contentAfterIndent;
+    
+    if (contentAfterIndent.startsWith("□")) {
+        currentSymbol = "□";
+        remainingText = contentAfterIndent.substring(1);
+    } else if (contentAfterIndent.startsWith("◆")) {
+        currentSymbol = "◆";
+        remainingText = contentAfterIndent.substring(1);
+    } else if (contentAfterIndent.startsWith("■")) {
+        currentSymbol = "■";
+        remainingText = contentAfterIndent.substring(1);
+    }
     
     // 次の記号を決定
-    var nextSymbol = getNextSymbol(symbolInfo.symbol);
+    var nextSymbol = getNextSymbol(currentSymbol);
     
-    // 新しいテキスト部分を構築
-    var newText = nextSymbol + symbolInfo.remainingText;
-    
-    // インデント処理モジュールを使用して新しい行を構築
-    var newLineText = indentProcessor.replaceText(currentLineText, newText);
+    // 新しい行の内容を構築
+    var newLineText = indentPart + nextSymbol + remainingText;
     
     // 現在の行を新しい内容で置換
     Editor.SetLineStr(newLineText, 0);
-}
-
-// 現在の記号状態を判定する
-function detectCurrentSymbol(text) {
-    var symbols = ["□", "◆", "■"];
-    
-    for (var i = 0; i < symbols.length; i++) {
-        var symbol = symbols[i];
-        if (text.indexOf(symbol) === 0) {
-            return {
-                symbol: symbol,
-                remainingText: text.substring(symbol.length)
-            };
-        }
-    }
-    
-    // 記号が見つからない場合
-    return {
-        symbol: "",
-        remainingText: text
-    };
 }
 
 // 記号状態判定ロジック：次の記号を決定する
