@@ -1,5 +1,6 @@
 // サクラエディタ TODO記号切り替えマクロ（統合版）
 // ショートカットキーで □ → ◆ → ■ → □ の循環切り替えを行う
+// Unicode文字（\u25A1 \u25C6 \u25A0）を使用して文字化けを防止
 
 /**
  * インデント処理クラス
@@ -54,7 +55,7 @@ var indentProcessor = new IndentProcessor();
  * @return {object} {symbol: string, remainingText: string}
  */
 function detectCurrentSymbol(text) {
-    var symbols = ["□", "◆", "■"];
+    var symbols = ["\u25A1", "\u25C6", "\u25A0"];  // □ ◆ ■
     
     for (var i = 0; i < symbols.length; i++) {
         var symbol = symbols[i];
@@ -80,15 +81,15 @@ function detectCurrentSymbol(text) {
  */
 function getNextSymbol(currentSymbol) {
     switch (currentSymbol) {
-        case "□":
-            return "◆";
-        case "◆":
-            return "■";
-        case "■":
-            return "□";
+        case "\u25A1":  // □ 白四角
+            return "\u25C6";  // ◆ 黒ダイヤ
+        case "\u25C6":  // ◆ 黒ダイヤ
+            return "\u25A0";  // ■ 黒四角
+        case "\u25A0":  // ■ 黒四角
+            return "\u25A1";  // □ 白四角
         default:
             // 記号がない場合は□を追加
-            return "□";
+            return "\u25A1";  // □ 白四角
     }
 }
 

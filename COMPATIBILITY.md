@@ -6,7 +6,25 @@
 
 ## 修正済み問題
 
-### 1. ES6メソッドの互換性問題
+### 1. 文字エンコーディング問題
+
+#### Unicode Escape Sequence使用
+```javascript
+// ❌ 文字化けする（直接文字指定）
+var symbols = ["□", "◆", "■"];
+if (text.indexOf("□") === 0) {
+
+// ✅ 文字化けしない（Unicode Escape）
+var symbols = ["\u25A1", "\u25C6", "\u25A0"];  // □ ◆ ■
+if (text.indexOf("\u25A1") === 0) {
+```
+
+#### Unicode文字コード一覧
+- □ (白四角): `\u25A1`
+- ◆ (黒ダイヤ): `\u25C6`
+- ■ (黒四角): `\u25A0`
+
+### 2. ES6メソッドの互換性問題
 
 #### `startsWith()` メソッド
 ```javascript
@@ -35,7 +53,7 @@ if (text.includes("□")) {
 if (text.indexOf("□") !== -1) {
 ```
 
-### 2. サクラエディタAPI問題
+### 3. サクラエディタAPI問題
 
 #### `Editor.SetLineStr()` 関数問題
 ```javascript
@@ -55,6 +73,11 @@ var currentLineText = Editor.GetLineStr(0);
 ```
 
 ## 互換性チェックリスト
+
+### 文字エンコーディング
+- [x] 直接文字指定 → Unicode Escape Sequence
+- [x] □◆■ → `\u25A1` `\u25C6` `\u25A0`
+- [x] 環境に依存しない文字表示
 
 ### JavaScriptメソッド
 - [x] `startsWith()` → `indexOf() === 0`
@@ -134,6 +157,7 @@ return {
 ## 更新履歴
 
 - 2025-06-20: 初版作成
+  - 文字エンコーディング問題修正（Unicode Escape Sequence使用）
   - `startsWith()` → `indexOf()` 修正
   - `Editor.SetLineStr()` 存在しない関数問題を修正
   - 正しいサクラエディタAPI使用方法に変更

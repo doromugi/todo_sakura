@@ -80,7 +80,7 @@ IndentProcessor.prototype.test = function() {
         var line = testCases[i];
         var parsed = this.parseIndent(line);
         var analysis = this.analyzeIndent(parsed.indent);
-        var replaced = this.replaceText(line, '□' + parsed.text);
+        var replaced = this.replaceText(line, '\u25A1' + parsed.text);  // □ 白四角
         
         results.push({
             original: line,

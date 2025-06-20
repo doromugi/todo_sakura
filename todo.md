@@ -61,12 +61,25 @@
 - `README.md` - プロジェクト説明とインストールガイド
 - `SETUP_GUIDE.md` - 詳細設定手順とトラブルシューティング
 - `COMPATIBILITY.md` - サクラエディタ互換性ガイド
+- `CHARACTER_ENCODING_GUIDE.md` - 文字エンコーディング対策ガイド
 
 ## 修正履歴
 ### 2025-06-20 互換性問題修正
+- ❌ 文字化け（□◆■→笹。箇・。） → ✅ Unicode Escape Sequence使用
 - ❌ `startsWith()` → ✅ `indexOf() === 0`
 - ❌ `Editor.SetLineStr()` (存在しない関数) → ✅ 正しいAPI組み合わせに修正
 - ES5準拠コードに統一
+
+### 文字エンコーディング修正詳細
+```javascript
+// 修正前（文字化けする）
+var symbols = ["□", "◆", "■"];
+if (text.indexOf("□") === 0) {
+
+// 修正後（文字化けしない）
+var symbols = ["\u25A1", "\u25C6", "\u25A0"];  // □ ◆ ■
+if (text.indexOf("\u25A1") === 0) {
+```
 
 ### API修正詳細
 ```javascript
