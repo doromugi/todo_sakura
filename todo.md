@@ -98,8 +98,8 @@ Editor.InsText(newLineText);  // 新しい内容を挿入
 Editor.Jump(currentLine, 1);  // 絶対位置で行頭に確実に復元
 ```
 
-### カーソル位置修正詳細（v2）
-- `Editor.GetLineCount(1)` で現在行番号を数値で記憶
-- `Editor.GetSelectColumnFrom()` で現在列位置を数値で記憶  
-- `Editor.Jump(行番号, 列番号)` で絶対位置指定による確実な復元
-- 相対移動ではなく絶対座標による安定したカーソル制御
+### API問題修正詳細（v3: シンプル安全版）
+- `Editor.GetLineCount(1)` でLine 38エラーが発生
+- API仕様不明のため、複雑なカーソル制御を諦める
+- `Editor.GoLineTop(0)` による基本的な行頭復帰に変更
+- 確実に動作する安全な実装を優先
