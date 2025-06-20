@@ -34,12 +34,17 @@ function main() {
     // 新しい行の内容を構築
     var newLineText = indentPart + nextSymbol + remainingText;
     
+    // 現在行番号を記憶（MoveCursor API使用）
+    var currentLine = Editor.GetSelectLineFrom();
+    
     // 現在の行を新しい内容で置換（シンプルで安全な実装）
     Editor.GoLineTop(0);          // 行頭に移動
     Editor.SelectLine();          // 行全体を選択
     Editor.Delete();              // 選択行を削除
     Editor.InsText(newLineText);  // 新しい内容を挿入
-    Editor.GoLineTop(0);          // 行頭に戻る
+    
+    // MoveCursor APIで確実に同じ行の行頭に復帰
+    Editor.MoveCursor(currentLine, 1, 0);
 }
 
 // 記号状態判定ロジック：次の記号を決定する

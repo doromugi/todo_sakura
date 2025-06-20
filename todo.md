@@ -103,3 +103,9 @@ Editor.Jump(currentLine, 1);  // 絶対位置で行頭に確実に復元
 - API仕様不明のため、複雑なカーソル制御を諦める
 - `Editor.GoLineTop(0)` による基本的な行頭復帰に変更
 - 確実に動作する安全な実装を優先
+
+### カーソル位置制御修正（v4: MoveCursor API版）
+- API仕様書調査により正式なMoveCursor関数を確認
+- `Editor.GetSelectLineFrom()` で現在行番号を記憶
+- `Editor.MoveCursor(currentLine, 1, 0)` で確実に同じ行の行頭に復帰
+- 連続記号切り替えが可能になる正確な位置制御を実現
